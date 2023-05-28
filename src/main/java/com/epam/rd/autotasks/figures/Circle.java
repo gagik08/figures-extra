@@ -1,11 +1,16 @@
 package com.epam.rd.autotasks.figures;
 
-class Circle extends Figure {
+public class Circle extends Figure {
     private final Point center;
     private final double radius;
 
     public Circle(Point center, double radius) {
-        validateCircle(center, radius);
+        if (center == null) {
+            throw new IllegalArgumentException("Circle center cannot be null.");
+        }
+        if (radius <= 0) {
+            throw new IllegalArgumentException("Circle has non-positive radius.");
+        }
         this.center = center;
         this.radius = radius;
     }
@@ -18,20 +23,10 @@ class Circle extends Figure {
     @Override
     public boolean isTheSame(Figure figure) {
         if (figure instanceof Circle) {
-            Circle other = (Circle) figure;
-            return center.isTheSame(other.center) && Math.abs(radius - other.radius) <= 0.000001;
+            Circle otherCircle = (Circle) figure;
+            return center.isTheSame(otherCircle.center) && radius == otherCircle.radius;
         }
         return false;
     }
-
-    private void validateCircle(Point center, double radius) {
-        if (center == null) {
-            throw new IllegalArgumentException("Circle center cannot be null");
-        }
-        if (radius <= 0) {
-            throw new IllegalArgumentException("Circle radius must be positive");
-        }
-    }
 }
-
 
